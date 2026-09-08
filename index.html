@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zihao Zhou</title>
+<meta name="description" content="Zihao Zhou (周子皓) — world models for embodied agents, with a focus on memory and long-horizon context. Beihang University.">
+<meta name="author" content="Zihao Zhou">
+
+<meta property="og:title" content="Zihao Zhou">
+<meta property="og:description" content="World models for embodied agents: memory and long-horizon context.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:,">
+
+<style>
+:root {
+  --ink: #1a1a1a;
+  --muted: #666;
+  --rule: #e4e4e4;
+  --link: #1361a8;
+  --accent: #b3391b;
+  --measure: 860px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0 auto;
+  padding: 3.2rem 1.5rem 4rem;
+  max-width: var(--measure);
+  font: 400 16.5px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+  color: var(--ink);
+  background: #fff;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1 {
+  margin: 0 0 .2rem;
+  font-size: 2.1rem;
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+
+h1 .cjk {
+  font-size: .62em;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: .45rem;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin: 2.9rem 0 1.1rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 1.16rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+p { margin: 0 0 .95rem; }
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  display: flex;
+  gap: 2.4rem;
+  align-items: flex-start;
+}
+
+.masthead .bio { flex: 1 1 auto; min-width: 0; }
+
+.masthead .portrait {
+  flex: 0 0 172px;
+  width: 172px;
+}
+
+.masthead .portrait img {
+  width: 100%;
+  border-radius: 3px;
+  display: block;
+}
+
+.tagline {
+  margin: 0 0 1.1rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.contact {
+  margin: 1.15rem 0 0;
+  font-size: .94rem;
+  color: var(--muted);
+}
+
+.contact a { margin-right: .1rem; }
+
+.sep { color: #c8c8c8; margin: 0 .45rem; }
+
+/* ---------- publications ---------- */
+
+.entry {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid #f2f2f2;
+  align-items: flex-start;
+}
+
+.entry:last-child { border-bottom: none; }
+
+.entry .thumb {
+  flex: 0 0 232px;
+  width: 232px;
+}
+
+.entry .thumb img,
+.entry .thumb video {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  display: block;
+  background: #fafafa;
+}
+
+.entry .thumb .caption {
+  margin: .4rem 0 0;
+  font-size: .8rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.entry .meta { flex: 1 1 auto; min-width: 0; }
+
+.entry .title {
+  font-weight: 600;
+  margin-bottom: .2rem;
+}
+
+.entry .authors {
+  font-size: .94rem;
+  color: #333;
+  margin-bottom: .12rem;
+}
+
+.entry .authors .me { font-weight: 600; color: var(--ink); }
+
+.entry .venue {
+  font-size: .94rem;
+  color: var(--accent);
+  font-style: italic;
+  margin-bottom: .3rem;
+}
+
+.entry .links { font-size: .92rem; margin-bottom: .4rem; }
+
+.entry .blurb {
+  font-size: .94rem;
+  color: #444;
+  margin: 0;
+}
+
+.footnote {
+  font-size: .88rem;
+  color: var(--muted);
+  margin: .1rem 0 0;
+}
+
+/* ---------- misc blocks ---------- */
+
+.rows { margin: 0; padding: 0; list-style: none; }
+
+.rows li {
+  padding: .62rem 0;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: .97rem;
+}
+
+.rows li:last-child { border-bottom: none; }
+
+.rows .when {
+  color: var(--muted);
+  font-size: .89rem;
+  float: right;
+  margin-left: 1rem;
+}
+
+.rows .what { font-weight: 600; }
+
+.rows .sub { color: #555; }
+
+footer {
+  margin-top: 3.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-size: .84rem;
+  color: #8a8a8a;
+}
+
+@media (max-width: 680px) {
+  body { padding-top: 2rem; }
+  .masthead { flex-direction: column-reverse; gap: 1.4rem; }
+  .masthead .portrait { flex: 0 0 128px; width: 128px; }
+  .entry { flex-direction: column; gap: .8rem; }
+  .entry .thumb { flex: 0 0 auto; width: 100%; max-width: 340px; }
+  .rows .when { float: none; display: block; margin: .15rem 0 0; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="masthead">
+  <div class="bio">
+    <h1>Zihao Zhou<span class="cjk">周子皓</span></h1>
+    <p class="tagline">World models &middot; Embodied AI &middot; Robot learning</p>
+
+    <p>
+      I am an incoming M.Eng. student in Computer Science at
+      <a href="https://ev.buaa.edu.cn/">Beihang University</a>, advised by
+      Prof.&nbsp;Di&nbsp;Huang. I currently research world models at
+      <a href="https://www.shengshu-ai.com/">GensPI</a> (ShengShu), where I work on
+      <strong>Motus2</strong>.
+    </p>
+
+    <p>
+      My interest is <strong>memory and long-horizon context</strong> in world models for
+      embodied agents: how an agent retains and retrieves the history a task actually needs,
+      and how it improves from outcomes it predicts and observes rather than from
+      demonstrations alone. I have approached this from three directions — memory for a world
+      model driving dexterous manipulation, long-term memory for language agents, and
+      injecting structured world knowledge into generative models so that it transfers from
+      the visual to the action domain.
+    </p>
+
+    <p class="contact">
+      <a href="mailto:22371187@buaa.edu.cn">22371187@buaa.edu.cn</a><span class="sep">|</span>
+      <a href="cv.pdf">CV</a><span class="sep">|</span>
+      <a href="https://github.com/zzh18877220541">GitHub</a>
+      <!-- Add once indexed: <span class="sep">|</span><a href="">Google Scholar</a> -->
+    </p>
+  </div>
+
+  <div class="portrait">
+    <img src="images/portrait.jpg" alt="Zihao Zhou">
+  </div>
+</header>
+
+
+<h2>Publications</h2>
+
+<div class="entry">
+  <div class="thumb">
+    <video src="images/motus2.mp4" autoplay loop muted playsinline
+           preload="metadata" aria-label="Find Square memory probe"></video>
+    <p class="caption">The <em>Find Square</em> memory probe: a square is hidden under one of
+      three cups and shuffled, and the robot must recall which.</p>
+  </div>
+  <div class="meta">
+    <div class="title">Motus2: A Self-Evolving General World Model for Dexterous Manipulation</div>
+    <div class="authors">
+      Hongzhe Bi<sup>&dagger;</sup>, <span class="me">Zihao Zhou</span><sup>&dagger;</sup>,
+      Yihang Tang<sup>&dagger;</sup>, Jingrui Pang<sup>&dagger;</sup>,
+      Shuhe Huang<sup>&dagger;</sup>, et al., Jun Zhu<sup>*</sup>
+    </div>
+    <div class="venue">ICLR 2027, under review</div>
+    <div class="links">
+      <a href="https://arxiv.org/abs/2608.30237">arXiv</a> /
+      <a href="https://motus-robotics.github.io/motus2">project page</a>
+    </div>
+    <p class="blurb">
+      One set of shared weights acts as policy, action-conditioned simulator and value model in a
+      closed decision-and-learning loop, so the policy improves from its own failed and suboptimal
+      interactions. I owned the <strong>working-memory</strong> component and
+      <strong>MBRL on the real robot</strong>.
+    </p>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="meta">
+    <div class="title">EruDiff: Refactoring Knowledge in Diffusion Models for Advanced Text-to-Image Synthesis</div>
+    <div class="authors">
+      Xiefan Guo, Xinzhu Ma, Haoxiang Ma, <span class="me">Zihao Zhou</span>, Di Huang<sup>*</sup>
+    </div>
+    <div class="venue">ECCV 2026</div>
+    <div class="links">
+      <a href="https://arxiv.org/abs/2603.20828">arXiv</a> /
+      <a href="https://github.com/xiefan-guo/erudiff">code</a>
+    </div>
+    <p class="blurb">
+      Aligns the knowledge distribution of implicit prompts with explicit anchors and applies
+      negative-only reinforcement learning to correct rendering bias. I built
+      <strong>Knowledge-10K</strong>, the text-only corpus behind the paper's WISE results.
+    </p>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="meta">
+    <div class="title">Exploiting Intra-Chip Locality for Multi-Chip GPUs via Two-Level Shared L1 Cache</div>
+    <div class="authors">
+      Xiangrong Xu, Liang Wang<sup>*</sup>, Limin Xiao<sup>*</sup>, Lei Liu,
+      <span class="me">Zihao Zhou</span>, Yuanqiu Lv, Li Ruan, Xilong Xie, Meng Han, Xiaojian Liao
+    </div>
+    <div class="venue">Journal of Systems Architecture, vol.&nbsp;167, 2025</div>
+    <div class="links">
+      <a href="https://doi.org/10.1016/j.sysarc.2025.103500">DOI</a>
+    </div>
+    <p class="blurb">
+      TLS-Cache lets SMs share L1 data within a chip and so cuts cross-chip traffic, improving IPC by
+      30.2% over a private-L1 baseline without adding cache capacity. I designed the
+      <strong>two-level crossbar</strong>.
+    </p>
+  </div>
+</div>
+
+<p class="footnote"><sup>&dagger;</sup> joint first authorship &nbsp;&middot;&nbsp; <sup>*</sup> corresponding author</p>
+
+
+<h2>Selected projects</h2>
+
+<div class="entry">
+  <div class="meta">
+    <div class="title">ScaleEdit: physically scale-consistent object replacement</div>
+    <div class="venue">Undergraduate thesis, sole investigator</div>
+    <p class="blurb">
+      Image-editing models place a replacement object at a plausible-looking but physically wrong
+      size, and no existing benchmark measures it. I quantified the distortion, built an
+      object-replacement benchmark grounded in real-world size priors with a consistency protocol
+      combining 3D geometry and VLM judging, then proposed scale-aware supervised fine-tuning —
+      lifting FLUX.2-Klein-9B from 45.8 to 60.4 overall. Problem, benchmark and method are all my own.
+    </p>
+  </div>
+</div>
+
+<div class="entry">
+  <div class="meta">
+    <div class="title">Mahjong VLA: a bimanual robot playing a live match</div>
+    <div class="venue">ModelBest Inc. &middot; project owner, two-person team</div>
+    <p class="blurb">
+      Full single-view closed loop — tile perception &rarr; state tracking &rarr; policy &rarr; VLA
+      control — driving a bimanual ALOHA robot through a live two-player game: a long-horizon,
+      imperfect-information task on real hardware. Perception reached 91.2% exact match on full-hand
+      tile sequences; GRPO raised the first-place rate from 18.3% to 31.7% over 448 half-games.
+    </p>
+  </div>
+</div>
+
+
+<h2>Experience</h2>
+
+<ul class="rows">
+  <li>
+    <span class="when">Jul. 2026 &ndash; present</span>
+    <span class="what">GensPI (ShengShu)</span> &mdash;
+    <span class="sub">Research Intern. Memory, real-robot MBRL and training infrastructure for Motus2.</span>
+  </li>
+  <li>
+    <span class="when">Mar. 2025 &ndash; Jun. 2026</span>
+    <span class="what">IRIP Lab, Beihang University</span> &mdash;
+    <span class="sub">Research Assistant with Prof. Di Huang. World knowledge and physical consistency in generative models.</span>
+  </li>
+  <li>
+    <span class="when">Sep. 2025 &ndash; Jun. 2026</span>
+    <span class="what">ModelBest Inc.</span> &mdash;
+    <span class="sub">Algorithm Intern, Foundation Models group. Embodied policies and agent memory.</span>
+  </li>
+  <li>
+    <span class="when">Sep. 2023 &ndash; Feb. 2025</span>
+    <span class="what">Institute of System Architecture, Beihang University</span> &mdash;
+    <span class="sub">Research Intern. Multi-chip GPU simulation.</span>
+  </li>
+</ul>
+
+
+<h2>Education</h2>
+
+<ul class="rows">
+  <li>
+    <span class="when">2026 &ndash; 2029 (expected)</span>
+    <span class="what">M.Eng. in Computer Science and Technology</span>,
+    <span class="sub">Beihang University. Excellent Engineer Program, advised by Prof. Di Huang.</span>
+  </li>
+  <li>
+    <span class="when">2022 &ndash; 2026</span>
+    <span class="what">B.Eng. in Computer Science and Technology</span>,
+    <span class="sub">Beihang University.</span>
+  </li>
+</ul>
+
+
+<footer>
+  Last updated September 2026. Design adapted from
+  <a href="https://jonbarron.info/">Jon Barron</a>'s website.
+</footer>
+
+</body>
+</html>
