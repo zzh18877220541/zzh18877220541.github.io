@@ -3,42 +3,69 @@
 单页静态站，无构建步骤、无依赖。改内容只动 `index.html`。
 设计沿用 Jon Barron 的版式（视觉/机器人圈的惯例），页脚已按惯例署了来源。
 
-## 部署
+## 状态
 
-GitHub Pages 要求仓库名必须等于 `<用户名>.github.io`，否则不会作为个人主页发布。
+**已上线**：<https://zzh18877220541.github.io>
+仓库 `zzh18877220541/zzh18877220541.github.io`，public，Pages 从 `main` 分支根目录发布。
+两版 CV 的 `\homepage{}` 已启用。
+
+## 更新
 
 ```bash
-cd homepage
-git init -b main
-git add -A
-git commit -m "Personal homepage"
-git remote add origin git@github.com:zzh18877220541/zzh18877220541.github.io.git
-git push -u origin main
+cd homepage && git add -A && git commit -m "..." && git push
 ```
 
-推完到 GitHub 仓库的 **Settings → Pages**，Source 选 `Deploy from a branch`，
-分支 `main`、目录 `/ (root)`。首次发布约 1 分钟，地址是
-<https://zzh18877220541.github.io>。
+推送后 Pages 自动重新构建，约 30 秒生效。
 
-上线后把 `cv/main.tex` 与 `cv/main-zh.tex` preamble 里的 `\homepage{}` 取消注释。
+### 注意：SSH 走 443 端口
 
-## 待替换的图
+remote 用的是 `ssh://git@ssh.github.com:443/...` 而不是常规的 `git@github.com:...`，
+因为当前网络下 GitHub 的 22 端口不通（`ssh -T git@github.com` 会 `Connection closed`）。
+443 这条是 GitHub 官方提供的备用通道。换网络后两者都能用，不必改回去。
 
-`images/` 下六个 `.svg` 都是占位图，尺寸对了但内容是灰框。换成同名文件即可，
-`index.html` 不用改（换成 `.gif` / `.png` / `.jpg` 时记得改 `src` 的扩展名）。
+想让所有仓库都走这条，可以在 `~/.ssh/config` 里把 github.com 那段改成：
 
-| 文件 | 放什么 | 备注 |
+```
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+  IdentityFile ~/.ssh/id_rsa
+```
+
+## 图
+
+现有两个真实素材：
+
+| 文件 | 内容 | 来源 |
 | --- | --- | --- |
-| `portrait.svg` | 证件照或半身照 | 竖版，约 5:6 |
-| `motus2.svg` | Motus2 真机 demo | **优先做这个**，最好是循环 GIF |
-| `mahjong.svg` | 麻将 VLA 真机 demo | 同上，动图比静图有力得多 |
-| `erudiff.svg` | 论文 teaser 图 | 直接从论文里截 |
-| `tlscache.svg` | 架构图 | 同上 |
-| `scaleedit.svg` | 替换前后对比 | 一组 before/after 最能说明问题 |
+| `images/portrait.jpg` | 证件照 | 本人提供 |
+| `images/motus2.mp4` | *Find Square* 记忆探针 demo，2.2 MB | Motus2 项目页 `assets/video/demos/find_square_1.mp4` |
 
-动图控制在 5 MB 以内，GitHub Pages 单文件上限 100 MB 但加载慢会直接劝退访客。
-需要放长视频就用 `<video src="..." autoplay loop muted playsinline>` 替掉 `<img>`，
-CSS 里 `.entry .thumb video` 已经写好样式了。
+选 Find Square 而不是别的 demo，是因为记忆机制正是简历里主张 owner 的那一块，
+视频和文字互相印证；换成 `screw_bulb` 之类就只是「一个机器人 demo」，说明不了你的贡献。
+
+其余条目**故意没有配图**，做成纯文本全宽。灰色占位框会让页面看起来没做完，
+而只有第一条带视频、其余纯文本是一种成立的版式。想补图就在 `.meta` 前面插回：
+
+```html
+<div class="thumb">
+  <img src="images/xxx.jpg" alt="...">
+  <p class="caption">可选说明</p>
+</div>
+```
+
+值得补的，按优先级：
+
+1. **麻将 VLA 真机 demo** —— 目前没有录像（在面壁那边）。这是全站最可惜的缺口：
+   一个双臂机器人打真人麻将的动图，说服力远高于任何文字描述。能要到就要。
+2. **ScaleEdit 的替换前后对比** —— 一组 before/after 最能说明「物理尺寸错误」这个问题，
+   而且这是你唯一完全独立的工作，值得可视化。
+3. EruDiff teaser 图、TLS-Cache 架构图 —— 从论文里截即可，优先级最低。
+
+动图控制在 5 MB 以内。单文件上限是 100 MB，但加载慢会直接劝退访客。
+长视频用 `<video src="..." autoplay loop muted playsinline>`，
+`.entry .thumb video` 的样式已经写好（含 300 px 高度上限）。
 
 ## 本地预览
 
